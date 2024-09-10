@@ -11,3 +11,8 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+/* Remove underline on tab hover */
+.tab:hover {
+  text-decoration: none;
+}

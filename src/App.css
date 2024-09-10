@@ -126,23 +126,29 @@ main {
   width: 100%;
 }
 
-.sidebar nav ul li {
-  padding: 10px 15px;
+.sidebar nav li {
+  padding: 10px 20px;
   cursor: pointer;
-  display: block;
-  width: 100%;
-  box-sizing: border-box;
-  white-space: nowrap; /* Prevents text wrapping */
-  color: #333;
+  transition: background-color 0.3s;
+  display: block; /* Ensure vertical alignment */
+  text-decoration: none; /* Remove any default underline */
 }
 
-.sidebar nav ul li:hover {
-  background-color: #f0f4f8;
+.sidebar nav li:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+  text-decoration: none; /* Explicitly remove underline on hover */
 }
 
-.sidebar nav ul li.active {
-  background-color: #e0e7ff;
-  color: #1e3a8a;
+.sidebar nav li.active {
+  background-color: rgba(0, 0, 0, 0.1);
+  font-weight: bold;
+}
+
+/* Remove any existing underline styles */
+.sidebar nav li::after,
+.sidebar nav li:hover::after {
+  content: none;
+  display: none;
 }
 
 .credit {
@@ -277,15 +283,27 @@ main {
 
 .action-buttons button {
   padding: 8px 16px;
-  background-color: #4CAF50;
   color: white;
   border: none;
   border-radius: 4px;
   cursor: pointer;
+  transition: background-color 0.3s;
 }
 
-.action-buttons button:hover {
-  background-color: #45a049;
+.action-buttons button:first-child {
+  background-color: #4CAF50; /* Green for Add Income */
+}
+
+.action-buttons button:last-child {
+  background-color: #F44336; /* Red for Add Expense */
+}
+
+.action-buttons button:first-child:hover {
+  background-color: #45a049; /* Darker green on hover */
+}
+
+.action-buttons button:last-child:hover {
+  background-color: #d32f2f; /* Darker red on hover */
 }
 
 .transactions-table {
@@ -311,4 +329,91 @@ main {
 
 .transactions-table tr.expense {
   background-color: #ffe6e6;
+}
+
+.settings {
+  padding: 20px;
+}
+
+.settings h2 {
+  margin-bottom: 20px;
+}
+
+.settings-section {
+  margin-bottom: 30px;
+  border: 1px solid #e0e0e0;
+  border-radius: 5px;
+  padding: 15px;
+}
+
+.settings-section h3 {
+  margin-bottom: 15px;
+  border-bottom: 1px solid #e0e0e0;
+  padding-bottom: 5px;
+}
+
+.settings-option {
+  margin-bottom: 15px;
+}
+
+.settings-option label,
+.tax-setting label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.settings-option select,
+.tax-setting input[type="number"],
+.tax-setting select {
+  width: 200px;
+  padding: 5px;
+  margin-left: 10px;
+}
+
+.tax-settings-content {
+  display: flex;
+  justify-content: space-between;
+}
+
+.tax-setting {
+  width: 48%;
+}
+
+.tax-setting input[type="number"] {
+  appearance: textfield;
+  -moz-appearance: textfield;
+}
+
+.tax-setting input[type="number"]::-webkit-outer-spin-button,
+.tax-setting input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.save-settings {
+  background-color: #4CAF50;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin-top: 20px;
+  cursor: pointer;
+}
+
+.finance-form .tax-toggle {
+  margin-bottom: 15px;
+}
+
+.finance-form .tax-toggle label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.finance-form .tax-toggle input[type="checkbox"] {
+  margin-right: 10px;
 }

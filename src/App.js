@@ -1,24 +1,20 @@
 import React, { useState } from 'react';
 import './App.css';
 import FinanceForm from './components/FinanceForm';
-import Dashboard from './components/Dashboard';
-import Sheet from './components/Sheet';
-import Modal from './components/Modal';
+import Dashboard from './components/Dashboard'; // Change this line
 import { ReactComponent as Logo } from './logo.svg';
-import profileImage from './Profile.png';
+import profileImage from './Profile.png'; // Corrected to match the exact file name
 
 function App() {
-  const [currentTab, setCurrentTab] = useState('dashboard');
-  const [isIncomeModalOpen, setIsIncomeModalOpen] = useState(false);
-  const [isExpenseModalOpen, setIsExpenseModalOpen] = useState(false);
+  const [currentTab, setCurrentTab] = useState('dashboard'); // Change 'overview' to 'dashboard'
 
   const renderContent = () => {
     switch (currentTab) {
       case 'sheet':
-        return <Sheet />;
-      case 'dashboard':
+        return <FinanceForm />;
+      case 'dashboard': // Change 'overview' to 'dashboard'
       default:
-        return <Dashboard />;
+        return <Dashboard />; // Change <Overview /> to <Dashboard />
     }
   };
 
@@ -31,10 +27,10 @@ function App() {
         <nav>
           <ul>
             <li 
-              className={currentTab === 'dashboard' ? 'active' : ''}
-              onClick={() => setCurrentTab('dashboard')}
+              className={currentTab === 'dashboard' ? 'active' : ''} // Change 'overview' to 'dashboard'
+              onClick={() => setCurrentTab('dashboard')} // Change 'overview' to 'dashboard'
             >
-              Dashboard
+              Dashboard {/* Change 'Overview' to 'Dashboard' */}
             </li>
             <li 
               className={currentTab === 'sheet' ? 'active' : ''}
@@ -54,22 +50,10 @@ function App() {
       </div>
       <main className="content">
         <header>
-          <h1>{currentTab === 'dashboard' ? 'Dashboard' : 'Finance Sheet'}</h1>
-          {currentTab === 'sheet' && (
-            <div className="action-buttons">
-              <button onClick={() => setIsIncomeModalOpen(true)}>Add Income</button>
-              <button onClick={() => setIsExpenseModalOpen(true)}>Add Expense</button>
-            </div>
-          )}
+          <h1>{currentTab === 'dashboard' ? 'Dashboard' : 'Finance Sheet'}</h1> {/* Change 'overview' to 'dashboard' */}
         </header>
         {renderContent()}
       </main>
-      <Modal isOpen={isIncomeModalOpen} onClose={() => setIsIncomeModalOpen(false)}>
-        <FinanceForm type="income" onClose={() => setIsIncomeModalOpen(false)} />
-      </Modal>
-      <Modal isOpen={isExpenseModalOpen} onClose={() => setIsExpenseModalOpen(false)}>
-        <FinanceForm type="expense" onClose={() => setIsExpenseModalOpen(false)} />
-      </Modal>
     </div>
   );
 }
