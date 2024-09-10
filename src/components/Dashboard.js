@@ -5,10 +5,13 @@ import { getFinanceData } from '../localStorageService';
 
 function Dashboard() {
   const [finances, setFinances] = React.useState([]);
+  const [taxSettings, setTaxSettings] = React.useState({ rate: 0, method: 'inclusive' });
 
   React.useEffect(() => {
     const data = getFinanceData();
     setFinances(data);
+    const settings = JSON.parse(localStorage.getItem('userSettings')) || {};
+    setTaxSettings({ rate: settings.taxRate || 0, method: settings.taxMethod || 'inclusive' });
   }, []);
 
   const totalIncome = finances
@@ -21,12 +24,27 @@ function Dashboard() {
 
   const balance = totalIncome - totalExpenses;
 
+  const calculateTotalTax = () => {
+    return finances
+      .filter(item => item.type === 'income')
+      .reduce((sum, item) => {
+        if (taxSettings.method === 'inclusive') {
+          return sum + (item.amount * taxSettings.rate) / (100 + taxSettings.rate);
+        } else {
+          return sum + (item.amount * taxSettings.rate) / 100;
+        }
+      }, 0);
+  };
+
+  const totalTax = calculateTotalTax();
+
   const pieData = [
     { name: 'Income', value: totalIncome },
     { name: 'Expenses', value: totalExpenses },
+    { name: 'Tax', value: totalTax },
   ];
 
-  const COLORS = ['#2ABB7F', '#F15B50'];
+  const COLORS = ['#2ABB7F', '#F15B50', '#3366cc'];
 
   return (
     <Box sx={{ flexGrow: 1, padding: 3 }}>
@@ -34,7 +52,7 @@ function Dashboard() {
         Financial Dashboard
       </Typography>
       <Grid container spacing={3}>
-        <Grid item xs={12} md={4}>
+        <Grid item xs={12} sm={6} md={3}>
           <Card>
             <CardContent>
               <Typography variant="h6" color="text.secondary">
@@ -46,7 +64,7 @@ function Dashboard() {
             </CardContent>
           </Card>
         </Grid>
-        <Grid item xs={12} md={4}>
+        <Grid item xs={12} sm={6} md={3}>
           <Card>
             <CardContent>
               <Typography variant="h6" color="text.secondary">
@@ -58,7 +76,7 @@ function Dashboard() {
             </CardContent>
           </Card>
         </Grid>
-        <Grid item xs={12} md={4}>
+        <Grid item xs={12} sm={6} md={3}>
           <Card>
             <CardContent>
               <Typography variant="h6" color="text.secondary">
@@ -71,12 +89,24 @@ function Dashboard() {
             </CardContent>
           </Card>
         </Grid>
+        <Grid item xs={12} sm={6} md={3}>
+          <Card>
+            <CardContent>
+              <Typography variant="h6" color="text.secondary">
+                Total Tax
+              </Typography>
+              <Typography variant="h4" color="#3366cc">
+                ${totalTax.toFixed(2)}
+              </Typography>
+            </CardContent>
+          </Card>
+        </Grid>
       </Grid>
       <Box sx={{ marginTop: 4 }}>
         <Card>
           <CardContent>
             <Typography variant="h6" gutterBottom>
-              Income vs Expenses
+              Income vs Expenses vs Tax
             </Typography>
             <ResponsiveContainer width="100%" height={300}>
               <PieChart>
