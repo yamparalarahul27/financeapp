@@ -1,17 +1,17 @@
 {
   "files": {
-    "main.css": "/financeapp/static/css/main.7b85ecf1.css",
-    "main.js": "/financeapp/static/js/main.794d041d.js",
+    "main.css": "/financeapp/static/css/main.3c726e9f.css",
+    "main.js": "/financeapp/static/js/main.662f8fbc.js",
     "static/js/453.2fca8b29.chunk.js": "/financeapp/static/js/453.2fca8b29.chunk.js",
     "static/media/Profile.png": "/financeapp/static/media/Profile.ce309e5b4669f18d8cd4.png",
     "static/media/logo.svg": "/financeapp/static/media/logo.3f390fef8d63047559cbb609405f29d7.svg",
     "index.html": "/financeapp/index.html",
-    "main.7b85ecf1.css.map": "/financeapp/static/css/main.7b85ecf1.css.map",
-    "main.794d041d.js.map": "/financeapp/static/js/main.794d041d.js.map",
+    "main.3c726e9f.css.map": "/financeapp/static/css/main.3c726e9f.css.map",
+    "main.662f8fbc.js.map": "/financeapp/static/js/main.662f8fbc.js.map",
     "453.2fca8b29.chunk.js.map": "/financeapp/static/js/453.2fca8b29.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.7b85ecf1.css",
-    "static/js/main.794d041d.js"
+    "static/css/main.3c726e9f.css",
+    "static/js/main.662f8fbc.js"
   ]
 }
