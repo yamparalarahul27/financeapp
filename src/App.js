@@ -5,6 +5,7 @@ import Sheet from './components/Sheet';
 import Settings from './components/Settings';
 import FinanceForm from './components/FinanceForm';
 import Modal from './components/Modal';
+import Notification from './components/Notification';
 import { ReactComponent as Logo } from './logo.svg';
 import profileImage from './Profile.png';
 
@@ -14,6 +15,7 @@ function App() {
   const [formType, setFormType] = useState('income');
   const [theme, setTheme] = useState('light');
   const [settingsVersion, setSettingsVersion] = useState(0);
+  const [notification, setNotification] = useState({ open: false, message: '', severity: 'success' });
 
   useEffect(() => {
     const savedSettings = JSON.parse(localStorage.getItem('userSettings')) || {};
@@ -24,21 +26,32 @@ function App() {
     setSettingsVersion(prev => prev + 1);
   };
 
+  const openModal = (type) => {
+    setFormType(type);
+    setIsModalOpen(true);
+  };
+
+  const handleNotification = (message, severity = 'success') => {
+    setNotification({ open: true, message, severity });
+  };
+
+  const handleCloseNotification = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setNotification({ ...notification, open: false });
+  };
+
   const renderContent = () => {
     switch (currentTab) {
       case 'sheet':
-        return <Sheet key={settingsVersion} />;
+        return <Sheet openModal={openModal} onNotification={handleNotification} />;
       case 'settings':
         return <Settings onThemeChange={setTheme} onSettingsChange={handleSettingsChange} />;
       case 'dashboard':
       default:
-        return <Dashboard key={settingsVersion} />;
+        return <Dashboard />;
     }
-  };
-
-  const openModal = (type) => {
-    setFormType(type);
-    setIsModalOpen(true);
   };
 
   return (
@@ -83,18 +96,24 @@ function App() {
             {currentTab === 'dashboard' ? 'Dashboard' : 
              currentTab === 'sheet' ? 'Finance Sheet' : 'Settings'}
           </h1>
-          {currentTab === 'dashboard' && (
-            <div className="action-buttons">
-              <button onClick={() => openModal('income')}>Add Income</button>
-              <button onClick={() => openModal('expense')}>Add Expense</button>
-            </div>
-          )}
         </header>
-        {renderContent()}
+        <div className="content-area">
+          {renderContent()}
+        </div>
       </main>
       <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-        <FinanceForm type={formType} onClose={() => setIsModalOpen(false)} />
+        <FinanceForm 
+          type={formType} 
+          onClose={() => setIsModalOpen(false)} 
+          onSuccess={(message) => handleNotification(message)}
+        />
       </Modal>
+      <Notification 
+        open={notification.open}
+        handleClose={handleCloseNotification}
+        message={notification.message}
+        severity={notification.severity}
+      />
     </div>
   );
 }

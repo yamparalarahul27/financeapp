@@ -86,7 +86,7 @@ function Dashboard() {
                 <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
               ))}
             </Pie>
-            <Tooltip formatter={(value) => `${finances.length > 0 ? getCurrencyDisplay(finances[0].amount, finances[0].currency) : '$'}${value.toFixed(2)}`} />
+            <Tooltip formatter={(value) => `${getCurrencySymbol(finances[0]?.currency || 'USD')}${value.toFixed(2)}`} />
             <Legend />
           </PieChart>
         </ResponsiveContainer>

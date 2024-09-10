@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { getFinanceData } from '../localStorageService';
+import DeleteIcon from '@mui/icons-material/Delete';
 
-function Sheet() {
+function Sheet({ openModal, onNotification }) {
   const [finances, setFinances] = useState([]);
   const [settings, setSettings] = useState({});
 
@@ -21,6 +22,7 @@ function Sheet() {
       const updatedFinances = finances.filter((_, i) => i !== index);
       localStorage.setItem('financeData', JSON.stringify(updatedFinances));
       loadData();
+      onNotification('Transaction deleted successfully', 'info');
     }
   };
 
@@ -44,12 +46,10 @@ function Sheet() {
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
-    const options = { 
-      year: 'numeric', 
-      month: settings.dateFormat === 'MMDDYYYY' ? 'numeric' : 'long', 
-      day: 'numeric' 
-    };
-    return date.toLocaleDateString(undefined, options);
+    const day = date.getDate();
+    const month = date.toLocaleString('default', { month: 'short' }); // This will give us the 3-letter abbreviation
+    const year = date.getFullYear();
+    return `${day} ${month} ${year}`;
   };
 
   const capitalizeType = (type) => {
@@ -59,6 +59,10 @@ function Sheet() {
   return (
     <div className="sheet">
       <h3>All Transactions</h3>
+      <div className="action-buttons">
+        <button onClick={() => openModal('income')}>Add Income</button>
+        <button onClick={() => openModal('expense')}>Add Expense</button>
+      </div>
       <table className="transactions-table">
         <thead>
           <tr>
@@ -71,13 +75,21 @@ function Sheet() {
         </thead>
         <tbody>
           {finances.map((finance, index) => (
-            <tr key={index} className={finance.type}>
+            <tr key={index}>
               <td>{formatDate(finance.date)}</td>
               <td>{capitalizeType(finance.type)}</td>
               <td>{finance.description}</td>
-              <td>{getCurrencyDisplay(finance.amount, finance.currency)}</td>
+              <td className={`amount ${finance.type}`}>
+                {getCurrencyDisplay(finance.amount, finance.currency)}
+              </td>
               <td>
-                <button onClick={() => deleteTransaction(index)}>Delete</button>
+                <button 
+                  className="delete-button"
+                  onClick={() => deleteTransaction(index)}
+                  aria-label="Delete transaction"
+                >
+                  <DeleteIcon />
+                </button>
               </td>
             </tr>
           ))}

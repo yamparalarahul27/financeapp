@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { saveFinanceData } from '../localStorageService';
 
-function FinanceForm({ type, onClose }) {
+function FinanceForm({ type, onClose, onSuccess }) {
   const [amount, setAmount] = useState('');
   const [description, setDescription] = useState('');
   const [currency, setCurrency] = useState('USD');
@@ -30,7 +30,7 @@ function FinanceForm({ type, onClose }) {
     };
 
     saveFinanceData(newEntry);
-    console.log('New entry added successfully');
+    onSuccess(`New ${type} entry added successfully`); // Make sure this line is here
     setAmount('');
     setDescription('');
     onClose();

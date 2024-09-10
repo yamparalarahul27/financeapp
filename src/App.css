@@ -16,10 +16,10 @@
 
 .App-header {
   background-color: #1e3a8a;
-  min-height: 20vh;
+  padding: 20px 30px;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
@@ -91,8 +91,8 @@ main {
 }
 
 .sidebar {
-  width: auto; /* Changed from fixed width to auto */
-  min-width: 180px; /* Set a minimum width */
+  width: auto;
+  min-width: 180px;
   background-color: white;
   color: #333;
   padding: 0;
@@ -108,15 +108,15 @@ main {
 }
 
 .logo {
-  width: 100%; /* Changed from 110% */
+  width: 100%;
   height: auto;
-  margin-left: 0; /* Removed negative margin */
-  fill: #1e3a8a; /* Change this to your desired color */
+  margin-left: 0;
+  fill: #1e3a8a;
 }
 
 .sidebar nav {
   flex-grow: 1;
-  margin-top: 20px; /* Add some space between logo and nav */
+  margin-top: 20px;
 }
 
 .sidebar nav ul {
@@ -130,13 +130,13 @@ main {
   padding: 10px 20px;
   cursor: pointer;
   transition: background-color 0.3s;
-  display: block; /* Ensure vertical alignment */
-  text-decoration: none; /* Remove any default underline */
+  display: block;
+  text-decoration: none;
 }
 
 .sidebar nav li:hover {
   background-color: rgba(0, 0, 0, 0.05);
-  text-decoration: none; /* Explicitly remove underline on hover */
+  text-decoration: none;
 }
 
 .sidebar nav li.active {
@@ -144,7 +144,6 @@ main {
   font-weight: bold;
 }
 
-/* Remove any existing underline styles */
 .sidebar nav li::after,
 .sidebar nav li:hover::after {
   content: none;
@@ -159,8 +158,8 @@ main {
 }
 
 .profile-image {
-  width: 36px;  /* Increased from 24px (30% increase from 24px is 31.2px, rounded up to 36px) */
-  height: 36px; /* Increased from 24px */
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
   margin-right: 10px;
   object-fit: cover;
@@ -172,12 +171,12 @@ main {
 }
 
 .credit .designed-by {
-  font-size: 12px;  /* Slightly increased from 10px */
+  font-size: 12px;
   color: #666;
 }
 
 .credit .author {
-  font-size: 16px;  /* Slightly increased from 14px */
+  font-size: 16px;
   color: #333;
   font-weight: bold;
 }
@@ -236,6 +235,59 @@ main {
   padding: 20px;
 }
 
+.dashboard .summary {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.dashboard .summary > div {
+  flex: 1;
+  background-color: white;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  padding: 20px;
+  margin: 0 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.dashboard .summary > div:first-child {
+  margin-left: 0;
+}
+
+.dashboard .summary > div:last-child {
+  margin-right: 0;
+}
+
+.dashboard .summary h3 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-size: 18px;
+  color: #333;
+}
+
+.dashboard .summary p {
+  font-size: 24px;
+  font-weight: bold;
+  margin: 0;
+}
+
+.dashboard .summary .total-income p {
+  color: #4CAF50;
+}
+
+.dashboard .summary .total-expenses p {
+  color: #F44336;
+}
+
+.dashboard .summary .balance p.positive {
+  color: #4CAF50;
+}
+
+.dashboard .summary .balance p.negative {
+  color: #F44336;
+}
+
 .summary {
   display: flex;
   justify-content: space-between;
@@ -291,22 +343,43 @@ main {
 }
 
 .action-buttons button:first-child {
-  background-color: #4CAF50; /* Green for Add Income */
+  background-color: #4CAF50;
 }
 
 .action-buttons button:last-child {
-  background-color: #F44336; /* Red for Add Expense */
+  background-color: #F44336;
 }
 
-.action-buttons button:first-child:hover {
-  background-color: #45a049; /* Darker green on hover */
+.action-buttons button:hover {
+  opacity: 0.9;
 }
 
-.action-buttons button:last-child:hover {
-  background-color: #d32f2f; /* Darker red on hover */
+.sheet .action-buttons {
+  margin-bottom: 20px;
+  display: flex;
+  gap: 10px;
+}
+
+.sheet .action-buttons button {
+  padding: 8px 16px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.sheet .action-buttons button:last-child {
+  background-color: #F44336;
+}
+
+.sheet .action-buttons button:hover {
+  opacity: 0.9;
 }
 
 .transactions-table {
+  margin-bottom: 20px;
   width: 100%;
   border-collapse: collapse;
 }
@@ -323,12 +396,32 @@ main {
   font-weight: bold;
 }
 
-.transactions-table tr.income {
-  background-color: #e6ffe6;
+.transactions-table tr.income,
+.transactions-table tr.expense {
+  background-color: transparent;
 }
 
-.transactions-table tr.expense {
-  background-color: #ffe6e6;
+.transactions-table td.amount.income {
+  color: #4CAF50;
+}
+
+.transactions-table td.amount.expense {
+  color: #F44336;
+}
+
+.transactions-table .delete-button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  color: #9e9e9e;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.3s ease;
+}
+
+.transactions-table .delete-button:hover {
+  color: #F44336;
 }
 
 .settings {
@@ -340,16 +433,19 @@ main {
 }
 
 .settings-section {
-  margin-bottom: 30px;
+  background-color: white;
   border: 1px solid #e0e0e0;
-  border-radius: 5px;
-  padding: 15px;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 30px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .settings-section h3 {
+  margin-top: 0;
   margin-bottom: 15px;
+  padding-bottom: 10px;
   border-bottom: 1px solid #e0e0e0;
-  padding-bottom: 5px;
 }
 
 .settings-option {
@@ -402,6 +498,12 @@ main {
   font-size: 16px;
   margin-top: 20px;
   cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+
+.save-settings:hover {
+  background-color: #45a049;
 }
 
 .finance-form .tax-toggle {
@@ -418,102 +520,63 @@ main {
   margin-right: 10px;
 }
 
-/* Modal styles */
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-}
-
-.modal-content {
-  background-color: white;
-  padding: 20px;
-  border-radius: 5px;
-  position: relative;
-  max-width: 500px;
-  width: 100%;
-}
-
-.modal-close {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  font-size: 24px;
-  background: none;
-  border: none;
-  cursor: pointer;
-}
-
-/* Theme styles */
-.App.light {
-  background-color: #ffffff;
-  color: #333333;
-}
-
-.App.dark {
-  background-color: #333333;
-  color: #ffffff;
-}
-
-/* Adjust other component styles for dark theme */
-.App.dark .sidebar {
-  background-color: #222222;
-  color: #ffffff;
-}
-
-.App.dark .content {
-  background-color: #444444;
-}
-
-.App.dark .card {
-  background-color: #555555;
-  color: #ffffff;
-}
-
-/* Add more dark theme styles as needed */
-
-.error-message {
-  color: #ff0000;
-  margin-bottom: 10px;
-}
-
-.dashboard .summary {
-  display: flex;
-  justify-content: space-between;
+.sheet .transactions-table {
   margin-bottom: 20px;
+  width: 100%;
+  border-collapse: collapse;
 }
 
-.dashboard .summary > div {
-  background-color: #f0f0f0;
-  padding: 15px;
-  border-radius: 5px;
-  width: 30%;
+.sheet .transactions-table th,
+.sheet .transactions-table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
 }
 
-.dashboard .summary .balance .positive {
+.sheet .transactions-table th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+}
+
+.sheet .transactions-table tr.income,
+.sheet .transactions-table tr.expense {
+  background-color: transparent;
+}
+
+.sheet .transactions-table td.amount.income {
   color: #4CAF50;
 }
 
-.dashboard .summary .balance .negative {
+.sheet .transactions-table td.amount.expense {
   color: #F44336;
 }
 
-.transactions-table button {
-  background-color: #f44336;
-  color: white;
+.sheet .transactions-table .delete-button {
+  background-color: transparent;
   border: none;
-  padding: 5px 10px;
   cursor: pointer;
-  border-radius: 3px;
+  color: #9e9e9e;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.3s ease;
 }
 
-.transactions-table button:hover {
-  background-color: #d32f2f;
+.sheet .transactions-table .delete-button:hover {
+  color: #F44336;
+}
+
+.dashboard .chart-container {
+  background-color: white;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
+}
+
+.dashboard .chart-container h3 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  font-size: 18px;
+  color: #333;
 }
