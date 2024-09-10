@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 
@@ -20,5 +21,12 @@ function Notification({ open, handleClose, message, severity }) {
     </Snackbar>
   );
 }
+
+Notification.propTypes = {
+  open: PropTypes.bool.isRequired,
+  handleClose: PropTypes.func.isRequired,
+  message: PropTypes.string.isRequired,
+  severity: PropTypes.string.isRequired
+};
 
 export default Notification;

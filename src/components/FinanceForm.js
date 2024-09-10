@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { saveFinanceData } from '../localStorageService';
 
 function FinanceForm({ type, onClose, onSuccess }) {
@@ -89,5 +90,11 @@ function FinanceForm({ type, onClose, onSuccess }) {
     </div>
   );
 }
+
+FinanceForm.propTypes = {
+  type: PropTypes.string.isRequired,
+  onClose: PropTypes.func.isRequired,
+  onSuccess: PropTypes.func.isRequired
+};
 
 export default FinanceForm;

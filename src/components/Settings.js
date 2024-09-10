@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import '../styles/Settings.css'; // We'll create this file for custom styles
 
 function Settings({ onThemeChange, onSettingsChange }) {
@@ -81,8 +82,18 @@ function Settings({ onThemeChange, onSettingsChange }) {
       </div>
 
       <button className="save-settings" onClick={saveSettings}>Save Settings</button>
+      <style>{`
+        input:checked + .slider {
+          background-color: var(--red);
+        }
+      `}</style>
     </div>
   );
 }
+
+Settings.propTypes = {
+  onThemeChange: PropTypes.func.isRequired,
+  onSettingsChange: PropTypes.func.isRequired
+};
 
 export default Settings;

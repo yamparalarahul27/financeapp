@@ -224,11 +224,11 @@ main {
 }
 
 .card.income {
-  border-top: 4px solid #4CAF50;
+  border-top: 4px solid #2ABB7F;
 }
 
 .card.expenses {
-  border-top: 4px solid #F44336;
+  border-top: 4px solid #F15B50;
 }
 
 .dashboard {
@@ -273,19 +273,19 @@ main {
 }
 
 .dashboard .summary .total-income p {
-  color: #4CAF50;
+  color: #2ABB7F;
 }
 
 .dashboard .summary .total-expenses p {
-  color: #F44336;
+  color: #F15B50;
 }
 
 .dashboard .summary .balance p.positive {
-  color: #4CAF50;
+  color: #2ABB7F;
 }
 
 .dashboard .summary .balance p.negative {
-  color: #F44336;
+  color: #F15B50;
 }
 
 .summary {
@@ -343,11 +343,11 @@ main {
 }
 
 .action-buttons button:first-child {
-  background-color: #4CAF50;
+  background-color: #2ABB7F;
 }
 
 .action-buttons button:last-child {
-  background-color: #F44336;
+  background-color: #F15B50;
 }
 
 .action-buttons button:hover {
@@ -362,7 +362,7 @@ main {
 
 .sheet .action-buttons button {
   padding: 8px 16px;
-  background-color: #4CAF50;
+  background-color: #2ABB7F;
   color: white;
   border: none;
   border-radius: 4px;
@@ -371,7 +371,7 @@ main {
 }
 
 .sheet .action-buttons button:last-child {
-  background-color: #F44336;
+  background-color: #F15B50;
 }
 
 .sheet .action-buttons button:hover {
@@ -402,11 +402,11 @@ main {
 }
 
 .transactions-table td.amount.income {
-  color: #4CAF50;
+  color: #2ABB7F;
 }
 
 .transactions-table td.amount.expense {
-  color: #F44336;
+  color: #F15B50;
 }
 
 .transactions-table .delete-button {
@@ -421,7 +421,7 @@ main {
 }
 
 .transactions-table .delete-button:hover {
-  color: #F44336;
+  color: #F15B50;
 }
 
 .settings {
@@ -488,7 +488,7 @@ main {
 }
 
 .save-settings {
-  background-color: #4CAF50;
+  background-color: #2ABB7F;
   border: none;
   color: white;
   padding: 10px 20px;
@@ -503,7 +503,7 @@ main {
 }
 
 .save-settings:hover {
-  background-color: #45a049;
+  background-color: #25a069;
 }
 
 .finance-form .tax-toggle {
@@ -544,11 +544,11 @@ main {
 }
 
 .sheet .transactions-table td.amount.income {
-  color: #4CAF50;
+  color: #2ABB7F;
 }
 
 .sheet .transactions-table td.amount.expense {
-  color: #F44336;
+  color: #F15B50;
 }
 
 .sheet .transactions-table .delete-button {
@@ -563,7 +563,7 @@ main {
 }
 
 .sheet .transactions-table .delete-button:hover {
-  color: #F44336;
+  color: #F15B50;
 }
 
 .dashboard .chart-container {

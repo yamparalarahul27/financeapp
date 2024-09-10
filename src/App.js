@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
 import './App.css';
 import Dashboard from './components/Dashboard';
 import Sheet from './components/Sheet';
@@ -16,10 +18,11 @@ function App() {
   const [theme, setTheme] = useState('light');
   const [settingsVersion, setSettingsVersion] = useState(0);
   const [notification, setNotification] = useState({ open: false, message: '', severity: 'success' });
+  const [currentTheme, setCurrentTheme] = useState('light');
 
   useEffect(() => {
     const savedSettings = JSON.parse(localStorage.getItem('userSettings')) || {};
-    setTheme(savedSettings.theme || 'light');
+    setCurrentTheme(savedSettings.theme || 'light');
   }, [settingsVersion]);
 
   const handleSettingsChange = () => {
@@ -55,66 +58,85 @@ function App() {
   };
 
   return (
-    <div className={`App ${theme}`}>
-      <div className="sidebar">
-        <div className="logo-container">
-          <Logo className="logo" />
-        </div>
-        <nav>
-          <ul>
-            <li 
-              className={currentTab === 'dashboard' ? 'active' : ''}
-              onClick={() => setCurrentTab('dashboard')}
-            >
-              Dashboard
-            </li>
-            <li 
-              className={currentTab === 'sheet' ? 'active' : ''}
-              onClick={() => setCurrentTab('sheet')}
-            >
-              Sheet
-            </li>
-            <li 
-              className={currentTab === 'settings' ? 'active' : ''}
-              onClick={() => setCurrentTab('settings')}
-            >
-              Settings
-            </li>
-          </ul>
-        </nav>
-        <div className="credit">
-          <img src={profileImage} alt="Yamparala Rahul" className="profile-image" />
-          <div className="credit-text">
-            <span className="designed-by">Designed & Created by</span>
-            <span className="author">Yamparala Rahul</span>
+    <ThemeProvider theme={createTheme({
+      palette: {
+        mode: currentTheme,
+        primary: {
+          main: '#2ABB7F',
+        },
+        secondary: {
+          main: '#F15B50',
+        },
+        text: {
+          primary: '#1E293B',
+        },
+      },
+      typography: {
+        fontFamily: 'Inter, sans-serif',
+      },
+    })}>
+      <CssBaseline />
+      <div className={`App ${theme}`}>
+        <div className="sidebar">
+          <div className="logo-container">
+            <Logo className="logo" />
+          </div>
+          <nav>
+            <ul>
+              <li 
+                className={currentTab === 'dashboard' ? 'active' : ''}
+                onClick={() => setCurrentTab('dashboard')}
+              >
+                Dashboard
+              </li>
+              <li 
+                className={currentTab === 'sheet' ? 'active' : ''}
+                onClick={() => setCurrentTab('sheet')}
+              >
+                Sheet
+              </li>
+              <li 
+                className={currentTab === 'settings' ? 'active' : ''}
+                onClick={() => setCurrentTab('settings')}
+              >
+                Settings
+              </li>
+            </ul>
+          </nav>
+          <div className="credit">
+            <img src={profileImage} alt="Yamparala Rahul" className="profile-image" />
+            <div className="credit-text">
+              <span className="designed-by">Designed & Created by</span>
+              <span className="author">Yamparala Rahul</span>
+            </div>
           </div>
         </div>
-      </div>
-      <main className="content">
-        <header>
-          <h1>
-            {currentTab === 'dashboard' ? 'Dashboard' : 
-             currentTab === 'sheet' ? 'Finance Sheet' : 'Settings'}
-          </h1>
-        </header>
-        <div className="content-area">
-          {renderContent()}
-        </div>
-      </main>
-      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-        <FinanceForm 
-          type={formType} 
-          onClose={() => setIsModalOpen(false)} 
-          onSuccess={(message) => handleNotification(message)}
+        <main className="content">
+          <header>
+            <h1>
+              {currentTab === 'dashboard' ? 'Dashboard' : 
+               currentTab === 'sheet' ? 'Finance Sheet' : 'Settings'}
+            </h1>
+          </header>
+          <div className="content-area">
+            {renderContent()}
+          </div>
+        </main>
+        <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+          <FinanceForm 
+            type={formType} 
+            onClose={() => setIsModalOpen(false)} 
+            onSuccess={(message) => handleNotification(message)}
+          />
+        </Modal>
+        <Notification 
+          open={notification.open}
+          handleClose={handleCloseNotification}
+          message={notification.message}
+          severity={notification.severity}
         />
-      </Modal>
-      <Notification 
-        open={notification.open}
-        handleClose={handleCloseNotification}
-        message={notification.message}
-        severity={notification.severity}
-      />
-    </div>
+      </div>
+    </ThemeProvider>
   );
 }
 

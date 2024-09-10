@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { getFinanceData } from '../localStorageService';
 import DeleteIcon from '@mui/icons-material/Delete';
 
@@ -98,5 +99,10 @@ function Sheet({ openModal, onNotification }) {
     </div>
   );
 }
+
+Sheet.propTypes = {
+  openModal: PropTypes.func.isRequired,
+  onNotification: PropTypes.func.isRequired
+};
 
 export default Sheet;
