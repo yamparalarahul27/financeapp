@@ -4,11 +4,32 @@ import { getFinanceData } from '../localStorageService';
 
 function Dashboard() {
   const [finances, setFinances] = useState([]);
+  const [settings, setSettings] = useState({});
 
   useEffect(() => {
     const data = getFinanceData();
     setFinances(data);
+    const savedSettings = JSON.parse(localStorage.getItem('userSettings')) || {};
+    setSettings(savedSettings);
   }, []);
+
+  const getCurrencySymbol = (currency) => {
+    switch(currency) {
+      case 'USD': return '$';
+      case 'INR': return '₹';
+      case 'USDC': return '₿'; // Using Bitcoin symbol as a placeholder for USDC
+      case 'SOL': return 'SOL ';
+      default: return '';
+    }
+  };
+
+  const getCurrencyDisplay = (amount, currency) => {
+    if (settings.currencyDisplay === 'code') {
+      return `${amount.toFixed(2)} ${currency}`;
+    } else {
+      return `${getCurrencySymbol(currency)}${amount.toFixed(2)}`;
+    }
+  };
 
   const totalIncome = finances
     .filter(item => item.type === 'income')
@@ -17,6 +38,8 @@ function Dashboard() {
   const totalExpenses = finances
     .filter(item => item.type === 'expense')
     .reduce((sum, item) => sum + item.amount, 0);
+
+  const balance = totalIncome - totalExpenses;
 
   const pieData = [
     { name: 'Income', value: totalIncome },
@@ -31,11 +54,18 @@ function Dashboard() {
       <div className="summary">
         <div className="total-income">
           <h3>Total Income</h3>
-          <p>${totalIncome.toFixed(2)}</p>
+          <p>{getCurrencyDisplay(totalIncome, finances[0]?.currency || 'USD')}</p>
         </div>
         <div className="total-expenses">
           <h3>Total Expenses</h3>
-          <p>${totalExpenses.toFixed(2)}</p>
+          <p>{getCurrencyDisplay(totalExpenses, finances[0]?.currency || 'USD')}</p>
+        </div>
+        <div className="balance">
+          <h3>Balance</h3>
+          <p className={balance >= 0 ? 'positive' : 'negative'}>
+            {getCurrencyDisplay(Math.abs(balance), finances[0]?.currency || 'USD')}
+            {balance < 0 ? ' (Deficit)' : ''}
+          </p>
         </div>
       </div>
       <div className="chart-container">
@@ -56,7 +86,7 @@ function Dashboard() {
                 <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
               ))}
             </Pie>
-            <Tooltip formatter={(value) => `$${value.toFixed(2)}`} />
+            <Tooltip formatter={(value) => `${finances.length > 0 ? getCurrencyDisplay(finances[0].amount, finances[0].currency) : '$'}${value.toFixed(2)}`} />
             <Legend />
           </PieChart>
         </ResponsiveContainer>

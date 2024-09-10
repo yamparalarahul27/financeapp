@@ -1,16 +1,15 @@
-const STORAGE_KEY = 'finance_data';
+const FINANCE_DATA_KEY = 'financeData';
 
-export const saveFinanceData = (data) => {
-  const existingData = getFinanceData();
-  const newData = [...existingData, data];
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(newData));
+export const saveFinanceData = (newEntry) => {
+  const existingData = JSON.parse(localStorage.getItem(FINANCE_DATA_KEY)) || [];
+  const updatedData = [...existingData, newEntry];
+  localStorage.setItem(FINANCE_DATA_KEY, JSON.stringify(updatedData));
 };
 
 export const getFinanceData = () => {
-  const data = localStorage.getItem(STORAGE_KEY);
-  return data ? JSON.parse(data) : [];
+  return JSON.parse(localStorage.getItem(FINANCE_DATA_KEY)) || [];
 };
 
 export const clearFinanceData = () => {
-  localStorage.removeItem(STORAGE_KEY);
+  localStorage.removeItem(FINANCE_DATA_KEY);
 };

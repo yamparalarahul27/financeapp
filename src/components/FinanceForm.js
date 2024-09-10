@@ -5,13 +5,26 @@ function FinanceForm({ type, onClose }) {
   const [amount, setAmount] = useState('');
   const [description, setDescription] = useState('');
   const [currency, setCurrency] = useState('USD');
+  const [error, setError] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setError('');
+
+    if (!amount || isNaN(amount) || parseFloat(amount) <= 0) {
+      setError('Please enter a valid positive amount.');
+      return;
+    }
+
+    if (!description.trim()) {
+      setError('Please enter a description.');
+      return;
+    }
+
     const newEntry = {
       type,
       amount: parseFloat(amount),
-      description,
+      description: description.trim(),
       currency,
       date: new Date().toISOString()
     };
@@ -36,6 +49,7 @@ function FinanceForm({ type, onClose }) {
   return (
     <div className="finance-form">
       <h2>Add {type.charAt(0).toUpperCase() + type.slice(1)}</h2>
+      {error && <p className="error-message">{error}</p>}
       <form onSubmit={handleSubmit}>
         <div>
           <label>

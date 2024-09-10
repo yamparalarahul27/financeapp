@@ -3,11 +3,26 @@ import { getFinanceData } from '../localStorageService';
 
 function Sheet() {
   const [finances, setFinances] = useState([]);
+  const [settings, setSettings] = useState({});
 
   useEffect(() => {
+    loadData();
+  }, []);
+
+  const loadData = () => {
     const data = getFinanceData();
     setFinances(data);
-  }, []);
+    const savedSettings = JSON.parse(localStorage.getItem('userSettings')) || {};
+    setSettings(savedSettings);
+  };
+
+  const deleteTransaction = (index) => {
+    if (window.confirm('Are you sure you want to delete this transaction?')) {
+      const updatedFinances = finances.filter((_, i) => i !== index);
+      localStorage.setItem('financeData', JSON.stringify(updatedFinances));
+      loadData();
+    }
+  };
 
   const getCurrencySymbol = (currency) => {
     switch(currency) {
@@ -19,12 +34,22 @@ function Sheet() {
     }
   };
 
+  const getCurrencyDisplay = (amount, currency) => {
+    if (settings.currencyDisplay === 'code') {
+      return `${amount.toFixed(2)} ${currency}`;
+    } else {
+      return `${getCurrencySymbol(currency)}${amount.toFixed(2)}`;
+    }
+  };
+
   const formatDate = (dateString) => {
     const date = new Date(dateString);
-    const day = date.getDate();
-    const month = date.toLocaleString('default', { month: 'long' });
-    const year = date.getFullYear();
-    return `${day} ${month} ${year}`;
+    const options = { 
+      year: 'numeric', 
+      month: settings.dateFormat === 'MMDDYYYY' ? 'numeric' : 'long', 
+      day: 'numeric' 
+    };
+    return date.toLocaleDateString(undefined, options);
   };
 
   const capitalizeType = (type) => {
@@ -41,6 +66,7 @@ function Sheet() {
             <th>Type</th>
             <th>Description</th>
             <th>Amount</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -49,9 +75,9 @@ function Sheet() {
               <td>{formatDate(finance.date)}</td>
               <td>{capitalizeType(finance.type)}</td>
               <td>{finance.description}</td>
+              <td>{getCurrencyDisplay(finance.amount, finance.currency)}</td>
               <td>
-                {getCurrencySymbol(finance.currency)}
-                {finance.amount.toFixed(2)}
+                <button onClick={() => deleteTransaction(index)}>Delete</button>
               </td>
             </tr>
           ))}
